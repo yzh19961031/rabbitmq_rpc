@@ -3,6 +3,8 @@ package com.yzh.rabbitmq.rpc.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.core.MessagePropertiesBuilder;
 
 import java.io.Serializable;
 
@@ -20,6 +22,10 @@ public class GeneralMessage {
     private String messageId;
     // 消息名称
     private String messageName;
+    // PRC使用的标识ID
+    private String correlationId;
+    // 响应队列
+    private String replyTo;
     // 源端ID
     private String sourceId;
     // 目标端ID

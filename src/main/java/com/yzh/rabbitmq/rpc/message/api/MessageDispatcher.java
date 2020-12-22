@@ -28,5 +28,5 @@ public interface MessageDispatcher {
      * @param message 消息
      * @param content 响应的内容
      */
-    void replay(GeneralMessage message, Serializable content);
+    void reply(GeneralMessage message, Serializable content);
 }

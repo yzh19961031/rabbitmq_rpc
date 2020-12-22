@@ -1,7 +1,7 @@
 package com.yzh.rabbitmq.rpc.message.api;
 
 
-import org.springframework.amqp.core.MessageListener;
+import com.yzh.rabbitmq.rpc.message.listener.GeneralMessageListener;
 
 /**
  * 消息管理器
@@ -17,7 +17,7 @@ public interface MessageManager {
      * @param messageName 自定义消息名称
      * @param messageListener 消息监听器
      */
-    void subscribe(String messageName, MessageListener messageListener);
+    void subscribe(String messageName, GeneralMessageListener messageListener);
 
     /**
      * 取消消息订阅

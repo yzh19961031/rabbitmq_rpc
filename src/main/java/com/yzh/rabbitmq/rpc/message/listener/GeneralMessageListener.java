@@ -8,7 +8,7 @@ import com.yzh.rabbitmq.rpc.model.GeneralMessage;
  * @author yuanzhihao
  * @since 2020/12/16
  */
-public interface MessageListener {
+public interface GeneralMessageListener {
 
     /**
      * 监听方法

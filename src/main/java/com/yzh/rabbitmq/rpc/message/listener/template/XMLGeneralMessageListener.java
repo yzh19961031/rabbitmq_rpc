@@ -1,16 +1,15 @@
-package com.yzh.rabbitmq.rpc.message.listener;
+package com.yzh.rabbitmq.rpc.message.listener.template;
 
+import com.yzh.rabbitmq.rpc.message.listener.GeneralMessageListener;
 import com.yzh.rabbitmq.rpc.model.GeneralMessage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * XML类型的监听器  使用模板模式
- *
  * @author yuanzhihao
- * @since 2020/12/19
+ * @since 2020/12/22
  */
 @Slf4j
-public abstract class XMLMessageListener implements MessageListener {
+public abstract class XMLGeneralMessageListener implements GeneralMessageListener {
 
     public void onMessage(GeneralMessage message) {
         //
