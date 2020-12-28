@@ -41,7 +41,6 @@ public class RpcMaster {
             log.error("RpcMaster has not been started.");
             return null;
         }
-
         return rpcInstance.request(destId, msgName, msgContent);
     }
 
@@ -67,6 +66,11 @@ public class RpcMaster {
         } else {
             rpcInstance.reply(requestMessage, msgContent);
         }
+    }
+
+    public static void destroy() {
+        InstanceBuildFactory.destroy();
+        rpcInstance = null;
     }
 
 }

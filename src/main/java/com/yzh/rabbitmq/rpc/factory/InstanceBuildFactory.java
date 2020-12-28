@@ -5,6 +5,7 @@ import com.yzh.rabbitmq.rpc.config.CustomPropertyPlaceholder;
 import com.yzh.rabbitmq.rpc.instance.RpcInstance;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 /**
  * 实例构建工厂
@@ -13,6 +14,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @since 2020/12/19
  */
 public class InstanceBuildFactory {
+    private static AbstractApplicationContext context;
+
+    public static void setContext(AbstractApplicationContext context) {
+        InstanceBuildFactory.context = context;
+    }
 
     private InstanceBuildFactory() {}
 
@@ -25,8 +31,9 @@ public class InstanceBuildFactory {
      */
     public synchronized static RpcInstance buildWithPropsFile(String propsFile) {
         CustomPropertyPlaceholder.setPropsFile(propsFile);
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CoreConfig.class);
-        return (RpcInstance) applicationContext.getBean("rpcInstance");
+        AbstractApplicationContext applicationContext = new AnnotationConfigApplicationContext(CoreConfig.class);
+        setContext(applicationContext);
+        return (RpcInstance) context.getBean("rpcInstance");
     }
 
     /**
@@ -35,8 +42,18 @@ public class InstanceBuildFactory {
      * @return rpc实例
      */
     public synchronized static RpcInstance buildWithDefaultFile() {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(CoreConfig.class);
-        return (RpcInstance) applicationContext.getBean("rpcInstance");
+        AbstractApplicationContext applicationContext = new AnnotationConfigApplicationContext(CoreConfig.class);
+        setContext(applicationContext);
+        return (RpcInstance) context.getBean("rpcInstance");
+    }
+
+    /**
+     * 关闭applicationContext
+     */
+    public synchronized static void destroy() {
+        if (context != null) {
+            context.close();
+        }
     }
 
 }
