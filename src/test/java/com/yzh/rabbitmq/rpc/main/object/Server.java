@@ -3,11 +3,7 @@ package com.yzh.rabbitmq.rpc.main.object;
 import com.yzh.rabbitmq.rpc.RpcMaster;
 import com.yzh.rabbitmq.rpc.main.object.bean.SystemInfo;
 import com.yzh.rabbitmq.rpc.message.listener.template.ObjectGeneralMessageListener;
-import com.yzh.rabbitmq.rpc.message.listener.template.XMLGeneralMessageListener;
 import lombok.extern.slf4j.Slf4j;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 
 import java.io.Serializable;
 
