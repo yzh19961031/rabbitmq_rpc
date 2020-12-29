@@ -7,4 +7,5 @@ import com.yzh.rabbitmq.rpc.message.listener.GeneralMessageListener;
  * @since 2020/12/22
  */
 public abstract class JsonGeneralMessageListener implements GeneralMessageListener {
+
 }

@@ -50,7 +50,7 @@ public class RpcInstance implements MessageCoreImplementer, BasicConstant {
 
     @Override
     public GeneralMessage request(String destination, String messageName, Serializable content) {
-        if (ObjectUtils.anyNull(destination, messageName, content)) {
+        if (ObjectUtils.anyNull(destination, messageName)) {
             log.error("param is illegal");
             return null;
         }

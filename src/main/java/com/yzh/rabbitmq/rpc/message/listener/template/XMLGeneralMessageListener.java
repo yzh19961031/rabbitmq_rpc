@@ -24,7 +24,7 @@ public abstract class XMLGeneralMessageListener implements GeneralMessageListene
             log.error("Message is null");
             return;
         }
-
+        log.info("Receive a message messageName is {}, sourceId is {}", message.getMessageName(), message.getSourceId());
         Serializable content = message.getContent();
         Document document;
         try {

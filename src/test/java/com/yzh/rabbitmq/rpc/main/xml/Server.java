@@ -1,7 +1,9 @@
-package com.yzh.rabbitmq.rpc.main;
+package com.yzh.rabbitmq.rpc.main.xml;
 
 import com.yzh.rabbitmq.rpc.RpcMaster;
+import com.yzh.rabbitmq.rpc.message.listener.template.ObjectGeneralMessageListener;
 import com.yzh.rabbitmq.rpc.message.listener.template.XMLGeneralMessageListener;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -13,6 +15,7 @@ import org.dom4j.Element;
  * @author yuanzhihao
  * @since 2020/12/23
  */
+@Slf4j
 public class Server {
 
     public static void main(String[] args) {
@@ -22,19 +25,23 @@ public class Server {
         RpcMaster.subscribe(messageName, new SystemInfoMessageListener());
     }
 
-    // 获取操作系统信息
-    // 消息名称: getSystemInfo
-    // 请求消息体:
-    // <getSystemInfo/>
-    // 响应消息:
-    // <system>
-    //  <os>Mac OS X</os>
-    //  <version>10.15.6</version>
-    // </system>
+    /**
+     *
+     * 获取操作系统信息
+     * 消息名称: getSystemInfo
+     * 请求消息体:
+     * <getSystemInfo/>
+     * 响应消息:
+     * <system>
+     *  <os>Mac OS X</os>
+     *  <version>10.15.6</version>
+     * </system>
+     */
     private static class SystemInfoMessageListener extends XMLGeneralMessageListener {
 
         @Override
         public String handle(Document document) {
+            log.info("receive a message {}", document.asXML());
             String os = getOs();
             String osVersion = getOsVersion();
             Document responseDocument = DocumentHelper.createDocument();
@@ -52,4 +59,5 @@ public class Server {
             return System.getProperty("os.version");
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.yzh.rabbitmq.rpc.main;
+package com.yzh.rabbitmq.rpc.main.xml;
 
 import com.yzh.rabbitmq.rpc.RpcMaster;
 import com.yzh.rabbitmq.rpc.model.GeneralMessage;
@@ -11,10 +11,9 @@ import org.dom4j.DocumentHelper;
  */
 public class Client {
 
-
-
     public static void main(String[] args) {
-        RpcMaster.register();
+        String propsFile = "/Users/yuanzhihao/Desktop/tmp/node.properties";
+        RpcMaster.register(propsFile);
         Document document = DocumentHelper.createDocument();
         document.addElement("getSystemInfo");
         String messageName = "getSystemInfo";
