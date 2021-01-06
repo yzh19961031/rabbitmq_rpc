@@ -4,6 +4,7 @@ package com.yzh.rabbitmq.rpc.config;
 import com.yzh.rabbitmq.rpc.constant.BasicConstant;
 import com.yzh.rabbitmq.rpc.instance.RpcInstance;
 import com.yzh.rabbitmq.rpc.message.listener.RpcReceiveListener;
+import com.yzh.rabbitmq.rpc.model.RpcBuildParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -30,6 +31,12 @@ import java.util.Locale;
 @Slf4j
 public class CoreConfig implements BasicConstant {
 
+    // 构建参数
+    private final static RpcBuildParams buildParams = CustomPropertyPlaceholder.getBuildParams();
+
+    // 是否使用bean构建
+    private final static boolean parameterized = CustomPropertyPlaceholder.isParameterized();
+
     @Autowired
     private CustomPropertyPlaceholder customPropertyPlaceholder;
 
@@ -49,9 +56,9 @@ public class CoreConfig implements BasicConstant {
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setAddresses(brokerUrl);
-        connectionFactory.setUsername(brokerUsername);
-        connectionFactory.setPassword(brokerPassword);
+        connectionFactory.setAddresses(parameterized ? buildParams.getBrokerUrl() : brokerUrl);
+        connectionFactory.setUsername(parameterized ? buildParams.getBrokerUsername() : brokerUsername);
+        connectionFactory.setPassword(parameterized ? buildParams.getBrokerPassword() : brokerPassword);
         connectionFactory.setVirtualHost("/");
         return connectionFactory;
     }
@@ -65,14 +72,14 @@ public class CoreConfig implements BasicConstant {
     // 声明队列
     @Bean
     public Queue directQueue() {
-        return new Queue(String.format(Locale.ROOT, QUEUE_NAME, localId),true);
+        return new Queue(String.format(Locale.ROOT, QUEUE_NAME, parameterized ? buildParams.getLocalId() : localId),true);
     }
 
     // 绑定交换机和队列
     @Bean
     public Binding binding() {
         // 这边绑定
-        return BindingBuilder.bind(directQueue()).to(directExchange()).with(localId);
+        return BindingBuilder.bind(directQueue()).to(directExchange()).with(parameterized ? buildParams.getLocalId() : localId);
     }
 
     @Bean

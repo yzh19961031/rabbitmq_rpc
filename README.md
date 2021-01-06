@@ -136,3 +136,65 @@ public class Client {
 3. 异常处理优化，目前异常都是简单记录日志。
 4. 并发环境下的使用验证。
 5. ......
+
+## 更新
+
+### 2020/1/6
+
+完善了使用bean类方式启动程序的逻辑，目前支持通过指定配置文件或者指定配置类的方式。配置类中的属性和指定配置文件属性一致，配置类如下：
+
+```java
+/**
+ * 构建参数
+ *
+ * @author yuanzhihao
+ * @since 2020/12/16
+ */
+@Data
+public class RpcBuildParams {
+    private String localId;
+
+    private String brokerUrl;
+
+    private String brokerUsername;
+
+    private String brokerPassword;
+}
+```
+
+启动方式也很简单，可以使用com.yzh.rabbitmq.rpc.RpcMaster#register(com.yzh.rabbitmq.rpc.model.RpcBuildParams)方法，方法入参是一个配置类对象，具体使用参考以下：
+
+```java
+/**
+ * 客户端
+ *
+ * @author yuanzhihao
+ * @since 2020/12/29
+ */
+public class Client {
+    // localId=test_rpc1
+    // brokerUrl=192.168.1.108:5672
+    // brokerUsername=guest
+    // brokerPassword=guest
+    private static final String localId = "test_rpc1";
+    private static final String brokerUrl = "192.168.1.108:5672";
+    private static final String brokerUsername = "guest";
+    private static final String brokerPassword = "guest";
+
+    public static void main(String[] args) {
+        // 这边提供两种方法  可以指定配置文件路径  或者提供配置类信息
+        // String propsFile = "/Users/yuanzhihao/Desktop/tmp/node.properties";
+        // RpcMaster.register(propsFile);
+        RpcBuildParams buildParams = new RpcBuildParams(localId, brokerUrl, brokerUsername, brokerPassword);
+        RpcMaster.register(buildParams);
+        String messageName = "getSystemInfo.object";
+        String destId = "test_rpc2";
+        GeneralMessage message = RpcMaster.request(destId, messageName, null);
+        assert message != null;
+        SystemInfo systemInfo = (SystemInfo) message.getContent();
+        System.out.println("systemInfo is " + systemInfo);
+        RpcMaster.destroy();
+    }
+}
+```
+

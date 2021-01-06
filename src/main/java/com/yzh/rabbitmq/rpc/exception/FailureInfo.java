@@ -8,10 +8,11 @@ package com.yzh.rabbitmq.rpc.exception;
  */
 public enum FailureInfo {
 
-    UNKNOWN_INFO(1001, "unknown error!");
+    UNKNOWN_INFO(1001, "unknown error!"),
+    ILLEGAL_PARAM(1002, "illegal param");
 
-    private int errCode;
-    private String errMessage;
+    private final int errCode;
+    private final String errMessage;
 
     FailureInfo(int errCode, String errMessage) {
         this.errCode = errCode;

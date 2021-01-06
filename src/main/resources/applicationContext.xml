@@ -16,7 +16,7 @@
     <bean id="customPropertyPlaceholder" class="com.yzh.rabbitmq.rpc.config.CustomPropertyPlaceholder">
         <property name="locations">
             <list>
-                <value>file:./node.properties</value>
+                <value>classpath:node.properties</value>
                 <value>classpath:rabbitmq.properties</value>
             </list>
         </property>

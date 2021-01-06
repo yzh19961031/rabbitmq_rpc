@@ -4,6 +4,7 @@ import com.yzh.rabbitmq.rpc.factory.InstanceBuildFactory;
 import com.yzh.rabbitmq.rpc.instance.RpcInstance;
 import com.yzh.rabbitmq.rpc.message.listener.GeneralMessageListener;
 import com.yzh.rabbitmq.rpc.model.GeneralMessage;
+import com.yzh.rabbitmq.rpc.model.RpcBuildParams;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -28,9 +29,9 @@ public class RpcMaster {
         }
     }
 
-    public static void register() {
+    public static void register(RpcBuildParams rpcBuildParams) {
         if (rpcInstance == null) {
-            rpcInstance = InstanceBuildFactory.buildWithDefaultFile();
+            rpcInstance = InstanceBuildFactory.buildWithParams(rpcBuildParams);
         } else {
             log.error("RpcMaster already started.");
         }
@@ -52,7 +53,7 @@ public class RpcMaster {
         }
     }
 
-    public static void unsubscribe(String msgName) {
+    public static void unSubscribe(String msgName) {
         if (rpcInstance == null) {
             log.error("RpcMaster has not been started.");
         } else {

@@ -20,6 +20,7 @@ import java.io.Serializable;
 public abstract class XMLGeneralMessageListener implements GeneralMessageListener {
 
     public void onMessage(GeneralMessage message) {
+
         if (message == null) {
             log.error("Message is null");
             return;
