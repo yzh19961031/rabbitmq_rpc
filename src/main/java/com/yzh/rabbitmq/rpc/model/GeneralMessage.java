@@ -3,8 +3,6 @@ package com.yzh.rabbitmq.rpc.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.amqp.core.MessageProperties;
-import org.springframework.amqp.core.MessagePropertiesBuilder;
 
 import java.io.Serializable;
 
